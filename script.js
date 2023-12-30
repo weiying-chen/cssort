@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import OpenAI from "openai";
 import dotenv from 'dotenv';
+import readline from 'readline'
 
 dotenv.config();
 
@@ -15,10 +16,22 @@ async function queryChatGPT(prompt) {
           messages: [{"role": "user", "content": prompt }],
         });
 
-        console.log(response.choices[0].message);
+        console.log(response.choices[0].message.content);
     } catch (error) {
         console.error('Error querying ChatGPT:', error);
     }
 }
 
-queryChatGPT("What is dog in Spanish?").then(() => process.exit());
+// queryChatGPT("Log 'Hello World' in JavaScript").then(() => process.exit());
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+rl.on('line', (input) => {
+  queryChatGPT(input).then(() => rl.close());
+  // console.log("Thank you for your valuable feedback:", input.toLocaleLowerCase());
+});
+
