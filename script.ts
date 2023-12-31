@@ -9,7 +9,7 @@ const openai = new OpenAI({
      apiKey: process.env.OPENAI_API_KEY
 });
 
-async function queryChatGPT(prompt) {
+async function queryChatGPT(prompt: string) {
     try {
         const response = await openai.chat.completions.create({
           model: "gpt-3.5-turbo",
@@ -28,7 +28,7 @@ const rl = readline.createInterface({
   terminal: false
 });
 
-const lines = [];
+const lines: string[] = [];
 
 rl.on('line', (line) => {
     lines.push(line);
