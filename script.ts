@@ -1,27 +1,5 @@
 #!/usr/bin/env node
-import OpenAI from "openai";
-import dotenv from 'dotenv';
 import readline from 'readline'
-
-dotenv.config();
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
-async function queryChatGPT(prompt: string) {
-  try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [{ "role": "user", "content": prompt }],
-    });
-
-    return response.choices[0].message.content;
-  } catch (error) {
-    console.error('Error querying ChatGPT:', error);
-    throw error;
-  }
-}
 
 const rl = readline.createInterface({
   input: process.stdin,
