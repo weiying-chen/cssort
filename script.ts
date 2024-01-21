@@ -15,11 +15,11 @@ rl.on('line', (line) => {
 
 
 rl.on('close', async () => {
-  const prompt = lines.join(' ');
+  const input = lines.join(' ');
 
   try {
     console.log('Processing...');
-    const result = await queryChatGPT(prompt);
+    const result = (input);
     console.log(result);
   } catch (error) {
     console.error('Error querying ChatGPT:', error);
