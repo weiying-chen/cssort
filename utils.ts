@@ -1,3 +1,8 @@
+export function inputToObj(input: string): Record<string, string | number> {
+  const fn = new Function(`return { ${input} }`);
+  return fn();
+}
+
 export function cssToObj(css: string): Record<string, string | number> {
   css = css.replace(/^{([\s\S]*)}$/, '$1').trim();
 
@@ -17,7 +22,7 @@ export function cssToObj(css: string): Record<string, string | number> {
   }, {});
 }
 
-export function objToCSS(obj: Record<string, string>): string {
+export function objToCSS(obj: Record<string, string | number>): string {
   const css = Object.entries(obj)
     .map(([key, value]) => {
       const kebabCaseKey = key.replace(
@@ -31,7 +36,10 @@ export function objToCSS(obj: Record<string, string>): string {
   return `{ ${css} }`;
 }
 
-export function objToLines(obj: Record<string, string | number>, indent = 2) {
+export function objToLines(
+  obj: Record<string, string | number>,
+  indent = 2,
+): string {
   const indentSpace = ' '.repeat(indent);
 
   return Object.keys(obj)
