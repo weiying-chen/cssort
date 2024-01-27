@@ -49,7 +49,6 @@ rl.on('line', (line) => {
   lines.push(line);
 });
 
-
 rl.on('close', async () => {
   // const input = lines.join(' ');
 
@@ -59,7 +58,8 @@ rl.on('close', async () => {
     // console.log(result);
     const result = await postcss([cssDeclarationSorter({ order: 'smacss' })])
       // .process(input, { from: undefined });
-      .process('a { color: hyperblue; display: block; }', { from: undefined });
+      // TODO: must convert CSS object to CSS string
+      .process('{ color: hyperblue; display: block; }', { from: undefined });
 
     // Log the result.css
     console.log(result.css);
