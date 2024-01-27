@@ -18,7 +18,7 @@ rl.on('line', (line) => {
 
 rl.on('close', async () => {
   const input = lines.join(' ');
-  const indentation = getIndent(lines);
+  const indent = getIndent(lines);
   const obj = new Function(`return { ${input} }`)();
   const css = objToCSS(obj);
 
@@ -28,7 +28,7 @@ rl.on('close', async () => {
     ]).process(css, { from: undefined });
 
     const obj = cssToObj(result.css);
-    const output = objToLines(obj, indentation);
+    const output = objToLines(obj, indent);
 
     console.log(output);
   } catch (error) {
