@@ -2,6 +2,7 @@
 import readline from 'readline';
 import postcss from 'postcss';
 import cssDeclarationSorter from 'css-declaration-sorter';
+
 import {
   cssToObj,
   getIndent,
