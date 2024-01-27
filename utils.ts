@@ -1,40 +1,34 @@
-export function cssToObj(css: string): Record<string, string> {
-  const obj = {};
-
+export function cssToObj(css: string): Record<string, string | number> {
   css = css.replace(/^{([\s\S]*)}$/, '$1').trim();
 
   const rules = css.split(';');
 
-  rules.forEach((rule) => {
+  return rules.reduce((acc, rule) => {
     const [prop, value] = rule.split(':').map((part) => part.trim());
 
     if (prop && value) {
       const camelCaseProp = prop.replace(/-\w/g, (match) =>
         match[1].toUpperCase(),
       );
-
-      obj[camelCaseProp] = value;
+      acc[camelCaseProp] = /^\d+$/.test(value) ? parseInt(value, 10) : value;
     }
-  });
 
-  return obj;
+    return acc;
+  }, {});
 }
 
 export function objToCSS(obj: Record<string, string>): string {
-  let css = '';
-
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
+  const css = Object.entries(obj)
+    .map(([key, value]) => {
       const kebabCaseKey = key.replace(
         /[A-Z]/g,
         (match) => '-' + match.toLowerCase(),
       );
+      return `${kebabCaseKey}: ${value};`;
+    })
+    .join(' ');
 
-      css += `${kebabCaseKey}: ${obj[key]}; `;
-    }
-  }
-
-  return `{ ${css.trim()} }`;
+  return `{ ${css} }`;
 }
 
 export function objToLines(obj: Record<string, string | number>, indent = 2) {
