@@ -16,20 +16,17 @@ rl.on('line', (line) => {
 });
 
 rl.on('close', async () => {
-  // const input = lines.join(' ');
+  const input = lines.join(' ');
 
   try {
     console.log('Processing...');
-    // const result = (input);
-    // console.log(result);
-    const result = await postcss([cssDeclarationSorter({ order: 'smacss' })])
-      // .process(input, { from: undefined });
-      // TODO: must convert CSS object to CSS string
-      .process('{ color: hyperblue; display: block; }', { from: undefined });
 
-    // Log the result.css
+    const result = await postcss([
+      cssDeclarationSorter({ order: 'smacss' }),
+    ]).process(input, { from: undefined });
+
     console.log(result.css);
   } catch (error) {
-    console.error('Error querying ChatGPT:', error);
+    console.error('PostCSS error:', error);
   }
 });
