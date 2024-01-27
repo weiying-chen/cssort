@@ -36,7 +36,7 @@ export function objToCSS(obj: Record<string, string | number>): string {
   return `{ ${css} }`;
 }
 
-export function objToLines(
+export function objToOutput(
   obj: Record<string, string | number>,
   indent = 2,
 ): string {
