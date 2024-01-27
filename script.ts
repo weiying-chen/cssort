@@ -28,9 +28,9 @@ rl.on('close', async () => {
     ]).process(css, { from: undefined });
 
     const obj = cssToObj(result.css);
-    const output = objToLines(obj, indent);
+    const lines = objToLines(obj, indent);
 
-    console.log(output);
+    console.log(lines);
   } catch (error) {
     console.error('PostCSS error:', error);
   }
