@@ -2,6 +2,7 @@
 import readline from 'readline';
 import postcss from 'postcss';
 import cssDeclarationSorter from 'css-declaration-sorter';
+import { objToCSS } from './utils';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -17,13 +18,15 @@ rl.on('line', (line) => {
 
 rl.on('close', async () => {
   const input = lines.join(' ');
+  const obj = new Function('return ' + input)();
+  const css = `{ ${objToCSS(obj)} }`;
 
   try {
     console.log('Processing...');
 
     const result = await postcss([
       cssDeclarationSorter({ order: 'smacss' }),
-    ]).process(input, { from: undefined });
+    ]).process(css, { from: undefined });
 
     console.log(result.css);
   } catch (error) {
