@@ -2,7 +2,7 @@
 import readline from 'readline';
 import postcss from 'postcss';
 import cssDeclarationSorter from 'css-declaration-sorter';
-import { objToCSS } from './utils';
+import { cssToObj, getIndentation, objToCSS, objToIndented } from './utils';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -18,17 +18,22 @@ rl.on('line', (line) => {
 
 rl.on('close', async () => {
   const input = lines.join(' ');
-  const obj = new Function('return ' + input)();
-  const css = `{ ${objToCSS(obj)} }`;
+  const indentation = getIndentation(lines);
+  const obj = new Function(`return { ${input} }`)();
+  const css = objToCSS(obj);
 
   try {
-    console.log('Processing...');
-
     const result = await postcss([
       cssDeclarationSorter({ order: 'smacss' }),
-    ]).process(css, { from: undefined });
+    ]).process(`{ ${css} }`, { from: undefined });
 
-    console.log(result.css);
+    const noCurlyCss = result.css.replace(/{|}/g, '').trim();
+    const obj = cssToObj(noCurlyCss);
+    const output = objToIndented(obj, indentation);
+
+    console.log(obj);
+
+    // console.log(output);
   } catch (error) {
     console.error('PostCSS error:', error);
   }
