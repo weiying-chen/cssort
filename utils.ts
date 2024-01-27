@@ -49,7 +49,7 @@ export function objToLines(obj: Record<string, string | number>, indent = 2) {
     .join(',\n');
 }
 
-export function getIndentation(lines: string[]) {
+export function getIndent(lines: string[]) {
   if (lines.length === 0) return 0;
 
   const leadingWhitespace = lines[0].match(/^\s*/);
