@@ -1,4 +1,4 @@
-export function inputToObj(input: string): Record<string, string | number> {
+export function strToObj(input: string): Record<string, string | number> {
   const fn = new Function(`return { ${input} }`);
   return fn();
 }
@@ -36,7 +36,7 @@ export function objToCSS(obj: Record<string, string | number>): string {
   return `{ ${css} }`;
 }
 
-export function objToOutput(
+export function objToMulti(
   obj: Record<string, string | number>,
   indent = 2,
 ): string {

@@ -3,13 +3,7 @@ import readline from 'readline';
 import postcss from 'postcss';
 import cssDeclarationSorter from 'css-declaration-sorter';
 
-import {
-  cssToObj,
-  getIndent,
-  inputToObj,
-  objToCSS,
-  objToOutput,
-} from './utils';
+import { cssToObj, getIndent, strToObj, objToCSS, objToMulti } from './utils';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -24,8 +18,8 @@ rl.on('line', (line) => {
 });
 
 rl.on('close', async () => {
-  const input = lines.join(' ');
-  const obj = inputToObj(input);
+  const str = lines.join(' ');
+  const obj = strToObj(str);
   const css = objToCSS(obj);
 
   try {
@@ -35,7 +29,7 @@ rl.on('close', async () => {
 
     const obj = cssToObj(result.css);
     const indent = getIndent(lines);
-    const output = objToOutput(obj, indent);
+    const output = objToMulti(obj, indent);
 
     console.log(output);
   } catch (error) {
